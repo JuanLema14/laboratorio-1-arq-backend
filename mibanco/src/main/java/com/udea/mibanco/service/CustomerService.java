@@ -65,28 +65,22 @@ public class CustomerService {
     String firstName,
     String lastName,
     Double balanceMin,
-    Double saldoMax
+    Double balanceMax
   ) {
-    List<Customer> resultados;
-
-    if (firstName != null && balanceMin != null && saldoMax != null) {
-      resultados =
-        customerRepository.findByFirstNameContainingAndBalanceBetween(
-          firstName,
-          balanceMin,
-          saldoMax
-        );
-    } else if (firstName != null && !firstName.isEmpty()) {
-      resultados = customerRepository.findByFirstNameContaining(firstName);
-    } else if (lastName != null && !lastName.isEmpty()) {
-      resultados = customerRepository.findByLastNameContaining(lastName);
-    } else if (balanceMin != null && saldoMax != null) {
-      resultados =
-        customerRepository.findByBalanceBetween(balanceMin, saldoMax);
-    } else {
-      resultados = customerRepository.findAll();
-    }
-
-    return resultados.stream().map(customerMapper::toDTO).toList();
+    return customerRepository
+      .findAll()
+      .stream()
+      .filter(c ->
+        firstName == null ||
+        c.getFirstName().toLowerCase().contains(firstName.toLowerCase())
+      )
+      .filter(c ->
+        lastName == null ||
+        c.getLastName().toLowerCase().contains(lastName.toLowerCase())
+      )
+      .filter(c -> balanceMin == null || c.getBalance() >= balanceMin)
+      .filter(c -> balanceMax == null || c.getBalance() <= balanceMax)
+      .map(customerMapper::toDTO)
+      .toList();
   }
 }
