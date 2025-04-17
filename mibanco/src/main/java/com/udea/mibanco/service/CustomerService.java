@@ -4,6 +4,7 @@ import com.udea.mibanco.DTO.CustomerDTO;
 import com.udea.mibanco.entity.Customer;
 import com.udea.mibanco.mapper.CustomerMapper;
 import com.udea.mibanco.repository.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,23 @@ public class CustomerService {
     return customerMapper.toDTO(customerRepository.save(customer));
   }
 
+  public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
+    Customer customer = customerRepository
+      .findById(id)
+      .orElseThrow(() ->
+        new EntityNotFoundException("Cliente no encontrado con id: " + id)
+      );
+
+    customer.setFirstName(customerDTO.getFirstName());
+    customer.setLastName(customerDTO.getLastName());
+    customer.setAccountNumber(customerDTO.getAccountNumber());
+    customer.setBalance(customerDTO.getBalance());
+
+    Customer updated = customerRepository.save(customer);
+
+    return customerMapper.toDTO(updated);
+  }
+
   public List<CustomerDTO> getAllCustomersWithFilters(
     String firstName,
     String lastName,
@@ -63,7 +81,8 @@ public class CustomerService {
     } else if (lastName != null && !lastName.isEmpty()) {
       resultados = customerRepository.findByLastNameContaining(lastName);
     } else if (balanceMin != null && saldoMax != null) {
-      resultados = customerRepository.findByBalanceBetween(balanceMin, saldoMax);
+      resultados =
+        customerRepository.findByBalanceBetween(balanceMin, saldoMax);
     } else {
       resultados = customerRepository.findAll();
     }

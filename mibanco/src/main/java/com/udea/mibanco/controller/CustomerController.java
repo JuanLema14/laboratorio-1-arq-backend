@@ -47,4 +47,16 @@ public class CustomerController {
 
     return ResponseEntity.ok(customerFacade.createCustomer(customerDTO));
   }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<CustomerDTO> updateCustomer(
+    @PathVariable Long id,
+    @RequestBody CustomerDTO customerDTO
+  ) {
+    CustomerDTO updatedCustomer = customerFacade.updateCustomer(
+      id,
+      customerDTO
+    );
+    return ResponseEntity.ok(updatedCustomer);
+  }
 }
