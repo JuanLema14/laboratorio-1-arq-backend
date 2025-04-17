@@ -59,4 +59,14 @@ public class CustomerController {
     );
     return ResponseEntity.ok(updatedCustomer);
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    boolean deleted = customerFacade.deleteCustomer(id);
+    if (deleted) {
+      return ResponseEntity.noContent().build(); 
+    } else {
+      return ResponseEntity.status(400).body(null);
+    }
+  }
 }

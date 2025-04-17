@@ -4,9 +4,10 @@ import com.udea.mibanco.DTO.CustomerDTO;
 import com.udea.mibanco.entity.Customer;
 import com.udea.mibanco.mapper.CustomerMapper;
 import com.udea.mibanco.repository.CustomerRepository;
+import com.udea.mibanco.repository.TransactionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,13 +15,15 @@ public class CustomerService {
 
   private final CustomerRepository customerRepository;
   private final CustomerMapper customerMapper;
+  private final TransactionRepository transactionRepository;
 
-  @Autowired
   public CustomerService(
     CustomerRepository customerRepository,
+    TransactionRepository transactionRepository,
     CustomerMapper customerMapper
   ) {
     this.customerRepository = customerRepository;
+    this.transactionRepository = transactionRepository;
     this.customerMapper = customerMapper;
   }
 
@@ -82,5 +85,28 @@ public class CustomerService {
       .filter(c -> balanceMax == null || c.getBalance() <= balanceMax)
       .map(customerMapper::toDTO)
       .toList();
+  }
+
+  public boolean customerHasTransactions(Long customerId) {
+    Optional<Customer> customer = customerRepository.findById(customerId);
+
+    if (customer.isEmpty()) {
+      return false;
+    }
+
+    String accountNumber = customer.get().getAccountNumber();
+
+    return (
+      transactionRepository.existsBySenderAccountNumber(accountNumber) ||
+      transactionRepository.existsByReceiverAccountNumber(accountNumber)
+    );
+  }
+
+  public boolean deleteCustomer(Long customerId) {
+    if (customerHasTransactions(customerId)) {
+      return false;
+    }
+    customerRepository.deleteById(customerId);
+    return true;
   }
 }

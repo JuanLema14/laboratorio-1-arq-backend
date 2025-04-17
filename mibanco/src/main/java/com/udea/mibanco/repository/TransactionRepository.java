@@ -10,5 +10,7 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction,Long> {
     List<Transaction> findBySenderAccountNumberOrReceiverAccountNumber(String senderAccountNumber, String ReceiverAccountNumber);
 
+    boolean existsBySenderAccountNumber(String customerAccountNumber);
 
+    boolean existsByReceiverAccountNumber(String customerAccountNumber);
 }
