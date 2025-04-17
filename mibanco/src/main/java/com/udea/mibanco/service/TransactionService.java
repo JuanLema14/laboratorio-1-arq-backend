@@ -8,6 +8,7 @@ import com.udea.mibanco.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,9 @@ public class TransactionService {
         transaction.setSenderAccountNumber(sender.getAccountNumber());
         transaction.setReceiverAccountNumber(receiver.getAccountNumber());
         transaction.setAmount(transactionDTO.getAmount());
+        transaction.setTimestamp(LocalDateTime.now());
         transaction = transactionRepository.save(transaction);
+
 
         //Devolver la transacción creada como DTO
         TransactionDTO savedTransaction = new TransactionDTO();
