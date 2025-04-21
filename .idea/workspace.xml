@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="840ccf40-1e0d-47c5-9a43-60d67e9aa634" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mibanco/src/main/java/com/udea/mibanco/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/mibanco/src/main/java/com/udea/mibanco/service/CustomerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +85,13 @@
       <workItem from="1744391110126" duration="76000" />
       <workItem from="1744858012181" duration="3194000" />
       <workItem from="1744907448102" duration="705000" />
-      <workItem from="1744908997215" duration="1235000" />
+      <workItem from="1744908997215" duration="2045000" />
+      <workItem from="1744923120348" duration="1248000" />
+      <workItem from="1744945925031" duration="154000" />
+      <workItem from="1744946287388" duration="1168000" />
+      <workItem from="1744987659466" duration="769000" />
+      <workItem from="1745206973150" duration="3441000" />
+      <workItem from="1745260933194" duration="1656000" />
     </task>
     <servers />
   </component>
